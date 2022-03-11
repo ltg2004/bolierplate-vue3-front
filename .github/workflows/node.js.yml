@@ -1,0 +1,64 @@
+name: deploy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    # 소스 가져오기
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    # 캐시하기 또는 캐쉬된 모듈 불러오기
+    - name: Cache node modules
+      uses: actions/cache@v2
+      id: cache
+      with:
+        path: node_modules
+        key: npm-packages-${{ hasFiles('**/package-lock.json') }}
+        resotre-keys: |
+                      ${{ runner.os }}-node
+                      
+    # Node 사용하기
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    # package-lock 파일을 기반으로 패키지 설치
+    - name: install packages
+      # 위에 선언한 cache가 cache-hit를 반환하는 값으로 package 설치 여부를 판단함
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+    
+    # test 수행
+    - name: run test
+      run: npm run lint
+      # 에러가 나도 이어서 실행
+      if: ${{ always }}
+    - run: npm run build
+      
+    # 테스트 실패했을 경우 슬랙으로 알려줌
+    - name: Notify test failure
+      uses: 8398a7/action-slack@v3
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      with:
+        status: ${{ job.status }}
+        username: github-actions
+        channel: '#study'
+      if: failure()
+        

@@ -26,8 +26,8 @@ jobs:
       uses: actions/cache@v2
       id: cache
       with:
-        path: node_modules
-        key: npm-packages-${{ hasFiles('**/package-lock.json') }}
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         resotre-keys: |
                       ${{ runner.os }}-node
                       

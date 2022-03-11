@@ -52,10 +52,9 @@ jobs:
       uses: 8398a7/action-slack@v3
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_USERNAME: ${{ github.actor }}
+        SLACK_CHANNEL: study
       with:
-        status: ${{ job.status }}
-        username: github-actions
-        channel: '#study'
         args: '{{ GITHUB_REF }}({{ GITHUB_SHA }}): vue3 보일러플레이트 테스트에 실패했습니다.'
       if: failure()
 

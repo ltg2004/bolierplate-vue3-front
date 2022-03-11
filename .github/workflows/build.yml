@@ -35,7 +35,7 @@ jobs:
     # package-lock 파일을 기반으로 패키지 설치
     - name: install packages
       # 위에 선언한 cache가 cache-hit를 반환하는 값으로 package 설치 여부를 판단함
-      if: steps.cache.outputs.cache-hit != 'true'
+      #if: steps.cache.outputs.cache-hit != 'true'
       run: npm install
     
     # lint 수행

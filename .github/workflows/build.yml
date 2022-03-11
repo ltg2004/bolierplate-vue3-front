@@ -53,7 +53,7 @@ jobs:
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         SLACK_USERNAME: ${{ github.actor }}
-        SLACK_CHANNEL: study
+        SLACK_CHANNEL: '#study'
       with:
         args: '{{ GITHUB_REF }}({{ GITHUB_SHA }}): vue3 보일러플레이트 테스트에 실패했습니다.'
       if: failure()
@@ -68,7 +68,7 @@ jobs:
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         SLACK_USERNAME: ${{ github.actor }}
-        SLACK_CHANNEL: study
+        SLACK_CHANNEL: '#study'
       with:
         args: '{{ GITHUB_REF }}({{ GITHUB_SHA }}): vue3 보일러플레이트 빌드를 성공했습니다.'
 
@@ -78,7 +78,7 @@ jobs:
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         SLACK_USERNAME: ${{ github.actor }}
-        SLACK_CHANNEL: study
+        SLACK_CHANNEL: '#study'
       with:
         args: '{{ GITHUB_REF }}({{ GITHUB_SHA }}): vue3 보일러플레이트 빌드를 실패했습니다.'
       if: failure()

@@ -8,6 +8,6 @@ describe('HelloWorld.vue', () => {
       props: { msg }
     })
     console.log(msg)
-    expect(wrapper.text()).toMatch('df')
+    expect(wrapper.text()).toMatch(msg)
   })
 })

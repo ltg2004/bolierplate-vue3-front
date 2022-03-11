@@ -48,7 +48,7 @@ jobs:
     - name: run test
       run: npm run lint
       # 에러가 나도 이어서 실행
-      if: ${{ always }}
+      if: ${{ always() }}
     - run: npm run build
       
     # 테스트 실패했을 경우 슬랙으로 알려줌

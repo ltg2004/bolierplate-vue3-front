@@ -82,7 +82,7 @@ jobs:
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       with:
-      status: ${{ job.status }}
+        status: ${{ job.status }}
         author_name: ${{ github.actor }}
         channel: '#study'
         fields: repo,message,commit,author,action,eventName,ref,workflow,job,took

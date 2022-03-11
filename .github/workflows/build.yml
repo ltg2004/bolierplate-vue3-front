@@ -38,12 +38,14 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: npm install
     
-    # test 수행
-    - name: run test
+    # lint 수행
+    - name: Run lint
       run: npm run lint
-      # 에러가 나도 이어서 실행
-      if: ${{ always() }}
-    - run: npm run build
+      if: ${{ always() }} # 에러가 나도 이어서 실행
+
+    # unit test 수행
+    - name: Run jest
+      run: npm run test:unit
       
     # 테스트 실패했을 경우 슬랙으로 알려줌
     - name: Notify test failure
@@ -54,5 +56,34 @@ jobs:
         status: ${{ job.status }}
         username: github-actions
         channel: '#study'
+        args: '{{ GITHUB_REF }}({{ GITHUB_SHA }}): vue3 보일러플레이트 테스트에 실패했습니다.'
       if: failure()
+
+    # 빌드
+    - name: Run build
+      run: npm run build
+
+    # 빌드 성공
+    - name: Slack notification build succss
+      uses: 8398a7/action-slack@v3
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_USERNAME: ${{ github.actor }}
+        SLACK_CHANNEL: study
+      with:
+        args: '{{ GITHUB_REF }}({{ GITHUB_SHA }}): vue3 보일러플레이트 빌드를 성공했습니다.'
+      if: failure()
+
+    # 빌드 실패
+    - name: Slack notification build failure
+      uses: 8398a7/action-slack@v3
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_USERNAME: ${{ github.actor }}
+        SLACK_CHANNEL: study
+      with:
+        args: '{{ GITHUB_REF }}({{ GITHUB_SHA }}): vue3 보일러플레이트 빌드를 실패했습니다.'
+      if: failure()
+
+    
         

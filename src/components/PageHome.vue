@@ -1,7 +1,7 @@
 <template>
-    <div>
-        hello
-    </div>
+  <div>
+    {{ key }}
+  </div>
 </template>
 
 <script>
@@ -10,12 +10,10 @@ import sourceData from '@/data.json'
 export default {
   data () {
     return {
-      key: value
+      key: 'value'
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

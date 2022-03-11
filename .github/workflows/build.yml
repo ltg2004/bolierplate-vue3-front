@@ -72,7 +72,6 @@ jobs:
         SLACK_CHANNEL: study
       with:
         args: '{{ GITHUB_REF }}({{ GITHUB_SHA }}): vue3 보일러플레이트 빌드를 성공했습니다.'
-      if: failure()
 
     # 빌드 실패
     - name: Slack notification build failure
